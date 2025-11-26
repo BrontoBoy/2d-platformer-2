@@ -1,36 +1,39 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyPatrol))]
+[RequireComponent(typeof(Patroller))]        
 [RequireComponent(typeof(Health))]
-[RequireComponent(typeof(EnemyAI))] 
+[RequireComponent(typeof(PlayerDetector))] 
+[RequireComponent(typeof(Chaser))]
 [RequireComponent(typeof(Mover))]
 public class Enemy : MonoBehaviour
 {
     private Health _health;
-    private EnemyPatrol _patrol;
-    private EnemyAI _aI;
-    private Mover _mover;
+    private Patroller _patroller;           
+    private PlayerDetector _playerDetector;
+    private Chaser _chaser;
     
     public Health Health => _health;
     
     private void Awake()
     {
         _health = GetComponent<Health>();
-        _patrol = GetComponent<EnemyPatrol>();
-        _aI = GetComponent<EnemyAI>();
-        _mover = GetComponent<Mover>();
+        _patroller = GetComponent<Patroller>();
+        _playerDetector = GetComponent<PlayerDetector>();
+        _chaser = GetComponent<Chaser>();
+        
+        _chaser.Initialize(_playerDetector);
     }
     
     private void Update()
     {
-        if (_aI.IsPlayerDetected)
+        if (_playerDetector.IsPlayerDetected)
         {
-            float direction = _aI.GetDirectionToPlayer();
-            _mover.Move(direction);
+            _chaser.Chase();
         }
         else
         {
-            _patrol.Patrol();
+            _chaser.Stop();
+            _patroller.Patrol();
         }
     }
 }

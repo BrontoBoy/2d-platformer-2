@@ -1,17 +1,16 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class GroundDetector : MonoBehaviour
 {
-    private HashSet<Collider2D> _groundCollisions = new HashSet<Collider2D>();
+    private int _groundCollisionCount = 0;
     
-    public bool IsGround => _groundCollisions.Count > 0;
+    public bool IsGround => _groundCollisionCount > 0;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<Ground>(out _))
         {
-            _groundCollisions.Add(other);
+            _groundCollisionCount++;
         }
     }
 
@@ -19,12 +18,12 @@ public class GroundDetector : MonoBehaviour
     {
         if (other.TryGetComponent<Ground>(out _))
         {
-            _groundCollisions.Remove(other);
+            _groundCollisionCount--;
         }
     }
 
     private void OnDisable()
     {
-        _groundCollisions.Clear();
+        _groundCollisionCount = 0;
     }
 }

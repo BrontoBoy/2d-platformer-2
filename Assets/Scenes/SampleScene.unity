@@ -7363,7 +7363,7 @@ GameObject:
   - component: {fileID: 1093632350}
   - component: {fileID: 1093632351}
   - component: {fileID: 1093632352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10186,9 +10186,33 @@ PrefabInstance:
       propertyPath: '_waypoints.Array.data[1]'
       value: 
       objectReference: {fileID: 1535915035}
+    - target: {fileID: 259303190226504109, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 544976911381702368, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 940201164870907227, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 940201164870907227, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: _targetLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 2613287783415379011, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641789242791366403, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677447382056260522, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4677447382056260522, guid: e8a4ec9ccd411ea4992b6c1a423ded8c, type: 3}
       propertyPath: _waypoints.Array.size
@@ -12243,6 +12267,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5822846268157646990, guid: 5c911279957835f43ae96f725ba60e23, type: 3}
   m_PrefabInstance: {fileID: 1477371516}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1483577042 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2500998206460665865, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
+  m_PrefabInstance: {fileID: 5291801955917527565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c367a9840e0874dab8d118eddd5c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1489624123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15155,7 +15190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1997402254}
   - component: {fileID: 1997402253}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15960,6 +15995,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7104870525842356570, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
+      propertyPath: _animationEvents
+      value: 
+      objectReference: {fileID: 1483577042}
     - target: {fileID: 2948421156161274720, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
@@ -16003,10 +16042,6 @@ PrefabInstance:
     - target: {fileID: 5046518582561284407, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8715393978913542891, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
-      propertyPath: _damage
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8995549193501854998, guid: f87ffc8dde69ca24196615a6af713fb4, type: 3}
       propertyPath: _textCoinsValueName

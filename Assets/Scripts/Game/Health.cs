@@ -3,14 +3,19 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageble, IHealable
 {
     [SerializeField] private int _maxHealth = 100;
-    [SerializeField] private int _currentHealth;
-    
-    public int Value => _currentHealth;
-    public bool IsAlive => _currentHealth > 0;
+    private int _currentHealth;
     
     public event System.Action<int> DamageTaken;
     public event System.Action<int> Healed;
     public event System.Action Died;
+    
+    public int Value => _currentHealth;
+    public bool IsAlive => _currentHealth > 0;
+
+    private void Awake()
+    {
+        _currentHealth = _maxHealth;
+    }
     
     private void Die()
     {
@@ -20,13 +25,14 @@ public class Health : MonoBehaviour, IDamageble, IHealable
     
     public void Heal(int amount)
     {
-        if (IsAlive == false)
-        {
+        if (amount <= 0)
             return;
-        }
+        
+        if (IsAlive == false)
+            return;
         
         int oldHealth = _currentHealth;
-        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth + amount, 0, _maxHealth);
         int actualHeal = _currentHealth - oldHealth;
         
         Healed?.Invoke(actualHeal);
@@ -34,13 +40,17 @@ public class Health : MonoBehaviour, IDamageble, IHealable
     
     public void TakeDamage(int damage)
     {
-        if (IsAlive == false)
-        {
+        if (damage <= 0)
             return;
-        }
         
-        _currentHealth -= damage;
-        DamageTaken?.Invoke(damage);
+        if (IsAlive == false)
+            return;
+        
+        int oldHealth = _currentHealth;
+        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
+        int actualDamage = oldHealth - _currentHealth;
+        
+        DamageTaken?.Invoke(actualDamage);
         
         if (_currentHealth <= 0)
         {

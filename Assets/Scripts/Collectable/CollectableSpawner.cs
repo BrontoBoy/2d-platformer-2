@@ -25,20 +25,7 @@ public class CollectableSpawner<T> : MonoBehaviour where T : CollectableItem
     {
         StopSpawning();
     }
-
-    public void StartSpawning()
-    {
-        if (_isSpawningActive) return;
-
-        _isSpawningActive = true;
-        StartCoroutine(SpawnRoutine());
-    }
-
-    public void StopSpawning()
-    {
-        _isSpawningActive = false;
-    }
-
+    
     protected virtual void InitializePool()
     {
         _objectPool = new ObjectPool<T>(
@@ -107,5 +94,19 @@ public class CollectableSpawner<T> : MonoBehaviour where T : CollectableItem
         {
             _objectPool.Release(typedItem);
         }
+    }
+    
+    public void StartSpawning()
+    {
+        if (_isSpawningActive) 
+            return;
+
+        _isSpawningActive = true;
+        StartCoroutine(SpawnRoutine());
+    }
+
+    public void StopSpawning()
+    {
+        _isSpawningActive = false;
     }
 }

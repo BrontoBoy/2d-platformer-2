@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Mover : MonoBehaviour
 {
+    public const float StopDirection = 0f; 
+    
     [SerializeField] private float _speedX  = 5;
     [SerializeField] private float _jumpForce = 6.5f;
     

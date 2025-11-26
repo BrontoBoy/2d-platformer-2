@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPatrol : MonoBehaviour
+public class Patroller : MonoBehaviour
 {
     private const float MinMoveDistance = 0.01f;
     
@@ -56,9 +56,7 @@ public class EnemyPatrol : MonoBehaviour
     public void Patrol()
     {
         if (_mover == null)
-        {
             return;
-        }
         
         float direction = GetDirectionToWaypoint();
         _mover.Move(direction);

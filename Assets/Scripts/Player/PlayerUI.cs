@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] TMP_Text _textHitPointsValueName;
-    [SerializeField] TMP_Text _textCoinsValueName;
+    [SerializeField] private TMP_Text _textHitPointsValueName;
+    [SerializeField] private TMP_Text _textCoinsValueName;
     
     private Player _player;
     private string _hitPointsValueName = "HP";

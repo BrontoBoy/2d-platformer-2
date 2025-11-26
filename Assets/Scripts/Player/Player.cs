@@ -6,11 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRotator))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Collector))] 
-
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerAttack _playerAttack;
     [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private PlayerAnimationEvents _animationEvents;
     
     private InputReader _inputReader;
     private Mover _mover;
@@ -38,12 +38,22 @@ public class Player : MonoBehaviour
         _health.Died += OnDied;
     }
     
-    private void OnDestroy()
+    
+    private void OnEnable()
     {
-        if (_health != null)
+        if (_animationEvents != null)
         {
-            _collector.ItemCollected -= OnItemCollected;
-            _health.Died -= OnDied;
+            _animationEvents.AttackStarted += OnAttackStarted;
+            _animationEvents.AttackEnded += OnAttackEnded;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_animationEvents != null)
+        {
+            _animationEvents.AttackStarted -= OnAttackStarted;
+            _animationEvents.AttackEnded -= OnAttackEnded;
         }
     }
     
@@ -84,6 +94,15 @@ public class Player : MonoBehaviour
         _animatorHandler.SetGrounded(_groundDetector.IsGround);
     }
     
+    private void OnDestroy()
+    {
+        if (_health != null)
+        {
+            _collector.ItemCollected -= OnItemCollected;
+            _health.Died -= OnDied;
+        }
+    }
+    
     private void OnDied()
     {
         this.enabled = false; 
@@ -103,13 +122,13 @@ public class Player : MonoBehaviour
         }
     }
     
-    public void OnAttackAnimationHit()
+    private void OnAttackStarted()
     {
-        _playerAttack?.EnableAttack();
+        _playerAttack?.Enable();
     }
     
-    public void OnAttackAnimationEnd()
+    private void OnAttackEnded()
     {
-        _playerAttack?.DisableAttack();
+        _playerAttack?.Disable();
     }
 }
