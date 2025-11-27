@@ -112,8 +112,8 @@ GameObject:
   - component: {fileID: 1587756014675755252}
   - component: {fileID: 3919362083506538816}
   - component: {fileID: 8995549193501854998}
-  - component: {fileID: 8715393978913542891}
   - component: {fileID: 2500998206460665865}
+  - component: {fileID: 3990249911319717844}
   m_Layer: 8
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -269,7 +269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 678d9839e2d72f94dbe047f12c519804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerAttack: {fileID: 8715393978913542891}
   _groundDetector: {fileID: 3037429627026623423}
   _animationEvents: {fileID: 0}
 --- !u!114 &7716129631650834210
@@ -383,24 +382,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textHitPointsValueName: {fileID: 0}
   _textCoinsValueName: {fileID: 0}
---- !u!114 &8715393978913542891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2948421156161274720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19b101518adf8184fb9823f0dc3d3396, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 50
-  _range: 0.5
-  _offset: {x: 0.6, y: 0.55}
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!114 &2500998206460665865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +394,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c367a9840e0874dab8d118eddd5c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3990249911319717844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948421156161274720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2496057da2d960c4c82ef7476bc69f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 50
+  _range: 1
+  "_\u0441ooldown": 1
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &3770644566948937601
 GameObject:
   m_ObjectHideFlags: 0

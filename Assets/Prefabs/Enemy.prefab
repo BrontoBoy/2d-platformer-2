@@ -15,12 +15,12 @@ GameObject:
   - component: {fileID: 7206167882470531335}
   - component: {fileID: -3634973631630317405}
   - component: {fileID: 4677447382056260522}
-  - component: {fileID: 259303190226504109}
   - component: {fileID: 2613287783415379011}
   - component: {fileID: -8167068968494408192}
   - component: {fileID: -2261050943389073123}
   - component: {fileID: 940201164870907227}
   - component: {fileID: 2641789242791366403}
+  - component: {fileID: 2475326540691216529}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -187,24 +187,6 @@ MonoBehaviour:
   _reachThreshold: 0.2
   _stuckThreshold: 2
   _waypoints: []
---- !u!114 &259303190226504109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544976911381702368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 305426c167280f04ba8fcf41f6c7222e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 10
-  _rate: 0.2
-  _range: 0.5
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!114 &2613287783415379011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,3 +255,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b5f95d7a3afdd4ea1b8dceddf71dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2475326540691216529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544976911381702368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2496057da2d960c4c82ef7476bc69f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
+  _range: 1
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 768

@@ -6,9 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRotator))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Collector))] 
+[RequireComponent(typeof(Attacker))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private PlayerAttack _playerAttack;
     [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private PlayerAnimationEvents _animationEvents;
     
@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private SpriteRotator _spriteRotator;
     private Health _health;
     private Collector _collector;
+    private Attacker _attacker; 
     private int _coins;
     private bool _wasRunning = false;
 
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
         _spriteRotator = GetComponent<SpriteRotator>();
         _health = GetComponent<Health>();
         _collector = GetComponent<Collector>();
+        _attacker = GetComponent<Attacker>();
         
         _collector.ItemCollected += OnItemCollected;
         _health.Died += OnDied;
@@ -124,11 +126,19 @@ public class Player : MonoBehaviour
     
     private void OnAttackStarted()
     {
-        _playerAttack?.Enable();
+        Vector2 attackPosition = GetAttackPosition();
+        _attacker.Attack(attackPosition);
     }
     
     private void OnAttackEnded()
     {
-        _playerAttack?.Disable();
+    }
+    
+    private Vector2 GetAttackPosition()
+    {
+        float facingDirection = _spriteRotator.GetFacingDirection();
+        Vector2 offset = new Vector2(1f, 0.5f) * facingDirection;
+        
+        return (Vector2)transform.position + offset;
     }
 }

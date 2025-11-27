@@ -28,6 +28,36 @@ public class Patroller : MonoBehaviour
         }
     }
     
+    public void Patrol()
+    {
+        if (_mover == null)
+            return;
+        
+        float direction = GetDirectionToWaypoint();
+        _mover.Move(direction);
+        float sqrDistance = transform.position.SqrDistance(CurrentWaypoint.position);
+        float reachThresholdSqr = _reachThreshold * _reachThreshold;
+        
+        if (IsStuck())
+        {
+            SelectNextWaypoint();
+            _stuckTimer = 0f;
+        }
+        
+        if (sqrDistance <= reachThresholdSqr)
+        {
+            SelectNextWaypoint();
+        }
+        
+        _lastPosition = transform.position;
+    }
+    
+    public void SelectNextWaypoint()
+    {
+        _currentWaypointIndex = ++_currentWaypointIndex % _waypoints.Length;
+        _stuckTimer = 0f;
+    }
+    
     private float GetDirectionToWaypoint()
     {
         Vector2 direction = CurrentWaypoint.position - transform.position;
@@ -51,35 +81,5 @@ public class Patroller : MonoBehaviour
             
             return false;
         }
-    }
-    
-    public void Patrol()
-    {
-        if (_mover == null)
-            return;
-        
-        float direction = GetDirectionToWaypoint();
-        _mover.Move(direction);
-        float sqrDistance = (CurrentWaypoint.position - transform.position).sqrMagnitude;
-        float reachThresholdSqr = _reachThreshold * _reachThreshold; ;
-        
-        if (IsStuck())
-        {
-            SelectNextWaypoint();
-            _stuckTimer = 0f;
-        }
-        
-        if (sqrDistance <= reachThresholdSqr)
-        {
-            SelectNextWaypoint();
-        }
-        
-        _lastPosition = transform.position;
-    }
-    
-    public void SelectNextWaypoint()
-    {
-        _currentWaypointIndex = ++_currentWaypointIndex % _waypoints.Length;
-        _stuckTimer = 0f;
     }
 }

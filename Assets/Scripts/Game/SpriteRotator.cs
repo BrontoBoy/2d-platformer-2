@@ -15,15 +15,9 @@ public class SpriteRotator : MonoBehaviour
         _leftRotation = Quaternion.Euler(0f, LeftAngle, 0f);
     }
     
-    private bool IsNeedRotation(float movementDirectionSign)
+    public float GetFacingDirection()
     {
-        return movementDirectionSign != _currentDirection;
-    }
-    
-    private void ApplyRotation(float directionSign)
-    {
-        _currentDirection = directionSign;
-        transform.rotation = directionSign > 0 ? _rightRotation : _leftRotation;
+        return _currentDirection;
     }
     
     public void TryRotateTowards(float movementDirection)
@@ -39,5 +33,16 @@ public class SpriteRotator : MonoBehaviour
         {
             ApplyRotation(movementSign);
         }
+    }
+    
+    private bool IsNeedRotation(float movementDirectionSign)
+    {
+        return movementDirectionSign != _currentDirection;
+    }
+    
+    private void ApplyRotation(float directionSign)
+    {
+        _currentDirection = directionSign;
+        transform.rotation = directionSign > 0 ? _rightRotation : _leftRotation;
     }
 }

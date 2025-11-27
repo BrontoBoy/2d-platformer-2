@@ -1,19 +1,23 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
-public class PlayerDetector : MonoBehaviour
+public class TargetDetector : MonoBehaviour
 {
     [SerializeField] private float _range = 5f;
     [SerializeField] private float _rate = 0.1f;
     [SerializeField] private LayerMask _targetLayer;
     
-    private Transform _player;
+    private Transform _targetTransform;
     private Coroutine _coroutine;
-    private bool _isPlayerDetected = false;
+    private bool _isTargetDetected = false;
     private bool _isRunning = true;
     
-    public Transform Player => _player;
-    public bool IsPlayerDetected => _isPlayerDetected;
+    public event Action PlayerDetected;
+    public event Action PlayerLost;
+    
+    public Transform TargetTransform => _targetTransform;
+    public bool IsTargetDetected => _isTargetDetected;
 
     private void OnEnable()
     {
@@ -53,17 +57,36 @@ public class PlayerDetector : MonoBehaviour
 
     private void Detection()
     {
+        bool wasDetected = _isTargetDetected;
+        
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, _range, _targetLayer);
         
-        _isPlayerDetected = targets.Length > 0;
+        _isTargetDetected = targets.Length > 0;
         
         if (targets.Length > 0)
         {
-            _player = targets[0].transform;
+            _targetTransform = targets[0].transform;
+            float sqrDistance = transform.position.SqrDistance(_targetTransform.position);
+            float sqrRange = _range * _range;
+            
+            if (sqrDistance > sqrRange)
+            {
+                _isTargetDetected = false;
+                _targetTransform = null;
+            }
         }
         else
         {
-            _player = null;
+            _targetTransform = null;
+        }
+        
+        if (wasDetected == false && _isTargetDetected)
+        {
+            PlayerDetected?.Invoke();
+        }
+        else if (wasDetected && _isTargetDetected == false)
+        {
+            PlayerLost?.Invoke();
         }
     }
 }

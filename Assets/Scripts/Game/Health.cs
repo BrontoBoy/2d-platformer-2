@@ -17,12 +17,6 @@ public class Health : MonoBehaviour, IDamageble, IHealable
         _currentHealth = _maxHealth;
     }
     
-    private void Die()
-    {
-        Died?.Invoke();
-        gameObject.SetActive(false);
-    }
-    
     public void Heal(int amount)
     {
         if (amount <= 0)
@@ -56,5 +50,11 @@ public class Health : MonoBehaviour, IDamageble, IHealable
         {
             Die();
         }
+    }
+    
+    private void Die()
+    {
+        Died?.Invoke();
+        gameObject.SetActive(false);
     }
 }

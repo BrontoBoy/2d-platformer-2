@@ -2,15 +2,17 @@ using UnityEngine;
 
 [RequireComponent(typeof(Patroller))]        
 [RequireComponent(typeof(Health))]
-[RequireComponent(typeof(PlayerDetector))] 
+[RequireComponent(typeof(TargetDetector))] 
 [RequireComponent(typeof(Chaser))]
 [RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(Attacker))]
 public class Enemy : MonoBehaviour
 {
     private Health _health;
     private Patroller _patroller;           
-    private PlayerDetector _playerDetector;
+    private TargetDetector _targetDetector;
     private Chaser _chaser;
+    private Attacker _attacker; 
     
     public Health Health => _health;
     
@@ -18,22 +20,62 @@ public class Enemy : MonoBehaviour
     {
         _health = GetComponent<Health>();
         _patroller = GetComponent<Patroller>();
-        _playerDetector = GetComponent<PlayerDetector>();
+        _targetDetector = GetComponent<TargetDetector>();
         _chaser = GetComponent<Chaser>();
-        
-        _chaser.Initialize(_playerDetector);
+        _attacker = GetComponent<Attacker>();
     }
-    
+
+    private void OnEnable()
+    {
+        _targetDetector.PlayerDetected += OnTargetDetected;
+        _targetDetector.PlayerLost += OnTargetLost;
+    }
+
+    private void OnDisable()
+    {
+        _targetDetector.PlayerDetected -= OnTargetDetected;
+        _targetDetector.PlayerLost -= OnTargetLost;
+    }
+
     private void Update()
     {
-        if (_playerDetector.IsPlayerDetected)
+        if (CanAttack())
         {
-            _chaser.Chase();
+            Attack();  
+        }
+        else if (_targetDetector.IsTargetDetected && _targetDetector.TargetTransform != null)
+        {
+            _chaser.Chase(_targetDetector.TargetTransform.position);
         }
         else
         {
-            _chaser.Stop();
             _patroller.Patrol();
         }
+    }
+
+    private bool CanAttack()
+    {
+        return _targetDetector.IsTargetDetected && _targetDetector.TargetTransform != null
+                                                && _attacker.CanAttack(_targetDetector.TargetTransform.position)
+                                                && _attacker.IsReadyToAttack();
+    }
+
+    private void Attack()
+    {
+        _chaser.Stop();
+        
+        Vector2 direction = (_targetDetector.TargetTransform.position - transform.position).normalized;
+        Vector2 position = (Vector2)transform.position + direction * 0.5f;
+        
+        _attacker.Attack(position);
+    }
+    
+    private void OnTargetDetected()
+    {
+    }
+
+    private void OnTargetLost()
+    {
+        _chaser.Stop();
     }
 }
