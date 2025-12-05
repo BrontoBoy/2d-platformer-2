@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageble, IHealable
 {
-    [SerializeField] private int _maxHealth = 100;
-    private int _currentHealth;
+    [SerializeField] private int _maxValue = 100;
+    private int _currentValue;
     
     public event System.Action<int> DamageTaken;
     public event System.Action<int> Healed;
     public event System.Action Died;
     
-    public int Value => _currentHealth;
-    public bool IsAlive => _currentHealth > 0;
+    public int MaxValue => _maxValue;
+    public int Value => _currentValue;
+    public bool IsAlive => _currentValue > 0;
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
+        _currentValue = _maxValue;
     }
     
     public void Heal(int amount)
@@ -25,9 +26,9 @@ public class Health : MonoBehaviour, IDamageble, IHealable
         if (IsAlive == false)
             return;
         
-        int oldHealth = _currentHealth;
-        _currentHealth = Mathf.Clamp(_currentHealth + amount, 0, _maxHealth);
-        int actualHeal = _currentHealth - oldHealth;
+        int oldHealth = _currentValue;
+        _currentValue = Mathf.Clamp(_currentValue + amount, 0, _maxValue);
+        int actualHeal = _currentValue - oldHealth;
         
         Healed?.Invoke(actualHeal);
     }
@@ -40,13 +41,13 @@ public class Health : MonoBehaviour, IDamageble, IHealable
         if (IsAlive == false)
             return;
         
-        int oldHealth = _currentHealth;
-        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0, _maxHealth);
-        int actualDamage = oldHealth - _currentHealth;
+        int oldHealth = _currentValue;
+        _currentValue = Mathf.Clamp(_currentValue - damage, 0, _maxValue);
+        int actualDamage = oldHealth - _currentValue;
         
         DamageTaken?.Invoke(actualDamage);
         
-        if (_currentHealth <= 0)
+        if (_currentValue <= 0)
         {
             Die();
         }
