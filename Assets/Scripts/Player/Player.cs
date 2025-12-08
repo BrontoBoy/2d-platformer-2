@@ -1,40 +1,48 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(InputReader))]
 [RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(AnimatorHandler))]
-[RequireComponent(typeof(SpriteRotator))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Collector))] 
 [RequireComponent(typeof(Attacker))]
+[RequireComponent(typeof(Wallet))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private GroundDetector _groundDetector;
-    [SerializeField] private PlayerAnimationEvents _animationEvents;
+    [SerializeField] private Transform _sprite;
+    [SerializeField] private Transform _attackPoint;
     
+    
+    private AnimatorHandler _animatorHandler;
+    private PlayerAnimationEvents _animationEvents;
     private InputReader _inputReader;
     private Mover _mover;
-    private AnimatorHandler _animatorHandler;
     private SpriteRotator _spriteRotator;
     private Health _health;
     private Collector _collector;
     private Attacker _attacker; 
-    private int _coins;
+    private Wallet _wallet; 
     private bool _wasRunning = false;
 
     public Health Health => _health;
-    public int Coins => _coins;
-    public Collector Collector => _collector;
+    public Wallet Wallet => _wallet;
     
     private void Awake()
     {
         _inputReader = GetComponent<InputReader>();
         _mover = GetComponent<Mover>();
-        _animatorHandler = GetComponent<AnimatorHandler>();
-        _spriteRotator = GetComponent<SpriteRotator>();
         _health = GetComponent<Health>();
         _collector = GetComponent<Collector>();
         _attacker = GetComponent<Attacker>();
+        _wallet = GetComponent<Wallet>();
+        
+        if (_sprite != null)
+        {
+            _animatorHandler = _sprite.GetComponent<AnimatorHandler>();
+            _spriteRotator = _sprite.GetComponent<SpriteRotator>();
+            _animationEvents = _sprite.GetComponent<PlayerAnimationEvents>();
+        }
         
         _collector.ItemCollected += OnItemCollected;
         _health.Died += OnDied;
@@ -65,35 +73,47 @@ public class Player : MonoBehaviour
 
         if (direction != 0 && _wasRunning == false)
         {
-            _animatorHandler.PlayRun();
+            if (_animatorHandler != null)
+                _animatorHandler.PlayRun();
+            
             _wasRunning = true;
         }
         else if (direction == 0 && _wasRunning)
         {
-            _animatorHandler.StopRun();
+            if (_animatorHandler != null)
+                _animatorHandler.StopRun();
+            
             _wasRunning = false;
         }
 
         if (direction != 0)
         {
             _mover.Move(direction);
-            _spriteRotator.TryRotateTowards(direction); 
+            
+            if (_spriteRotator != null)
+                _spriteRotator.TryRotateTowards(direction); 
         }
 
         if (_inputReader.IsJump && _groundDetector.IsGround)
         {
             _mover.Jump();
-            _animatorHandler.PlayJump();
+            
+            if (_animatorHandler != null)
+                _animatorHandler.PlayJump();
+            
             _inputReader.ResetJump();
         }
         
         if (_inputReader.IsAttack)
         {
-            _animatorHandler.PlayAttack();
+            if (_animatorHandler != null)
+                _animatorHandler.PlayAttack();
+            
             _inputReader.ResetAttack();
         }
         
-        _animatorHandler.SetGrounded(_groundDetector.IsGround);
+        if (_animatorHandler != null)
+            _animatorHandler.SetGrounded(_groundDetector.IsGround);
     }
     
     private void OnDestroy()
@@ -118,9 +138,9 @@ public class Player : MonoBehaviour
             _health.Heal(potion.HealAmount);
         }
         
-        if (collectedItem is Coin coin)
+        if (collectedItem is Coin)
         {
-            _coins++;
+            _wallet.AddCoins();
         }
     }
     
@@ -136,6 +156,11 @@ public class Player : MonoBehaviour
     
     private Vector2 GetAttackPosition()
     {
+        if (_attackPoint != null)
+        {
+            return _attackPoint.position;
+        }
+        
         float facingDirection = _spriteRotator.GetFacingDirection();
         Vector2 offset = new Vector2(1f, 0.5f) * facingDirection;
         

@@ -5,47 +5,52 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _textHitPointsValueName;
     [SerializeField] private TMP_Text _textCoinsValueName;
+    [SerializeField] private string _hitPointsValueName = "HP";
+    [SerializeField] private string _coinsValueName = "Coins";
     
     private Player _player;
-    private string _hitPointsValueName = "HP";
-    private string _coinsValueName = "Coins";
     
-    public Collector Collector => _player.Collector;
-
     private void Start()
     {
         _player = GetComponent<Player>();
-        Collector.ItemCollected += OnItemCollected;
+        
         _player.Health.DamageTaken += OnDamageTaken;
+        _player.Health.Healed += OnHealed;
+        _player.Wallet.CoinsChanged += OnCoinsChanged;  
         
         UpdatePlayerUI(_textHitPointsValueName, _hitPointsValueName, _player.Health.Value);
-        UpdatePlayerUI(_textCoinsValueName, _coinsValueName, _player.Coins);
+        UpdatePlayerUI(_textCoinsValueName, _coinsValueName, _player.Wallet.CoinsValue);
     }
     
     private void OnDisable()
     {
-        Collector.ItemCollected -= OnItemCollected;
-        _player.Health.DamageTaken -= OnDamageTaken;
-    }
-    
-    private void OnItemCollected(ICollectable collectedItem)
-    {
-        if (collectedItem is Potion)
+        if (_player != null && _player.Health != null)
         {
-            UpdatePlayerUI(_textHitPointsValueName, _hitPointsValueName, _player.Health.Value);
+            _player.Health.DamageTaken -= OnDamageTaken;
+            _player.Health.Healed -= OnHealed;
         }
         
-        if (collectedItem is Coin)
+        if (_player != null && _player.Wallet != null)
         {
-            UpdatePlayerUI(_textCoinsValueName, _coinsValueName, _player.Coins);
+            _player.Wallet.CoinsChanged -= OnCoinsChanged;
         }
     }
-
+    
     private void OnDamageTaken(int amount)
     {
         UpdatePlayerUI(_textHitPointsValueName, _hitPointsValueName, _player.Health.Value);
     }
-
+    
+    private void OnHealed(int amount)
+    {
+        UpdatePlayerUI(_textHitPointsValueName, _hitPointsValueName, _player.Health.Value);
+    }
+    
+    private void OnCoinsChanged(int coins)
+    {
+        UpdatePlayerUI(_textCoinsValueName, _coinsValueName, coins);
+    }
+    
     private void UpdatePlayerUI(TMP_Text text, string name, int value)
     {
         text.text = $"{name}: {value}";

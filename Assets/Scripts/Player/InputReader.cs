@@ -5,12 +5,9 @@ public class InputReader : MonoBehaviour
     public const string Horizontal = "Horizontal";
     public const int AttackMouseButtonIndex = 0;
     
-    private bool _isJump;
-    private bool _isAttack;
-    
     public float Direction { get; private set; }
-    public bool IsJump => _isJump;
-    public bool IsAttack => _isAttack;
+    public bool IsJump { get; private set; }
+    public bool IsAttack { get; private set; }
     
     private void Update()
     {
@@ -18,22 +15,22 @@ public class InputReader : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _isJump = true;
+            IsJump = true;
         }
         
         if (Input.GetMouseButtonDown(AttackMouseButtonIndex))
         {
-            _isAttack = true;
+            IsAttack = true;
         }
     }
     
     public void ResetJump()
     {
-        _isJump = false;
+        IsJump = false;
     }
     
     public void ResetAttack()
     {
-        _isAttack = false;
+        IsAttack = false;
     }
 }
