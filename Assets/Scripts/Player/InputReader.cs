@@ -8,6 +8,7 @@ public class InputReader : MonoBehaviour
     public float Direction { get; private set; }
     public bool IsJump { get; private set; }
     public bool IsAttack { get; private set; }
+    public bool IsCastSpell { get; private set; }
     
     private void Update()
     {
@@ -22,6 +23,11 @@ public class InputReader : MonoBehaviour
         {
             IsAttack = true;
         }
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            IsCastSpell = true;
+        }
     }
     
     public void ResetJump()
@@ -32,5 +38,10 @@ public class InputReader : MonoBehaviour
     public void ResetAttack()
     {
         IsAttack = false;
+    }
+    
+    public void ResetSpellCast()
+    {
+        IsCastSpell = false;
     }
 }

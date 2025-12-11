@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4883453158391827317}
   - component: {fileID: 3269100238025098350}
   - component: {fileID: -1733652620674673018}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4957019100196397334}
   - component: {fileID: 5256103622830745266}
   - component: {fileID: 1104593022787751341}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
